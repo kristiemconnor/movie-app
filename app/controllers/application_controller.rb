@@ -1,4 +1,4 @@
-class ApplicationController < ActionController::Base
+class Api::ApplicationController < ActionController::Base
   # protect_from_forgery with: :null_session
 
   def actors_page
@@ -37,4 +37,6 @@ class ApplicationController < ActionController::Base
     @actor = Actor.find_by(id: 6)
     render 'actors.json.jb'
   end
+
+  
 end
