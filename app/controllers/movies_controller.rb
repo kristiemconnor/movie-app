@@ -1,30 +1,26 @@
 class Api::MoviesController < ActionController::Base
 
- def movies_page
-    @amovies = Movie.all
+  def index
+    @movies = Movie.all
+    render 'index.json.jb'
+  end
+
+  def create
+
+    @movie = Movie.new(
+
+     title: params[:title],
+      year: params[:year],
+      plot: params[:plot]
+      )
+    @movie.save
+
     render 'movies.json.jb'
   end
 
-
-
-  def movie_1
-    @movie = Movie.find_by(id: 1)
-    render 'movies.json.jb'
-  end
-
-  def movie_2
-    @movie = Movie.find_by(id: 2)
-    render 'movies.json.jb'
-  end
-
-  def movie_3
-    @movie = Movie.find_by(id: 3)
-    render 'movies.json.jb'
-  end
-
-  def movie_4
-    @movie = Movie.find_by(id: 4)
-    render 'movies.json.jb'
+  def show
+    @movie = Movie.find_by(id: params[:id])
+    render 'show.json.jb'
   end
 
 
