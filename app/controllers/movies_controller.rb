@@ -1,5 +1,14 @@
 class Api::MoviesController < ActionController::Base
 
+  
+  attr_reader :english
+
+  def intialize(language)
+    @english = language[:english]
+
+    
+  end
+
   def index
     @movies = Movie.all
     render 'index.json.jb'
@@ -11,7 +20,8 @@ class Api::MoviesController < ActionController::Base
 
      title: params[:title],
       year: params[:year],
-      plot: params[:plot]
+      plot: params[:plot], 
+      
       )
     @movie.save
 
