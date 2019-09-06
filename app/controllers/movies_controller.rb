@@ -20,12 +20,16 @@ class Api::MoviesController < ActionController::Base
 
      title: params[:title],
       year: params[:year],
-      plot: params[:plot], 
+      plot: params[:plot] 
       
       )
     @movie.save
 
-    render 'movies.json.jb'
+    if @movie.save
+      render 'movies.json.jb'
+    else
+      render json: message { @movie.errors.full_message}
+    end
   end
 
   def show
@@ -41,7 +45,12 @@ class Api::MoviesController < ActionController::Base
     @movie.plot = params[:plot] || @movie.plot
 
     @movie.save
-    render "movies.json.jb"
+
+    if @movie.save
+      render 'movies.json.jb'
+    else 
+      render json: message { @movie.errors.full_message}
+    end
   end
 
   def destroy
