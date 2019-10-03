@@ -1,64 +1,52 @@
-class Api::ActorsController < ActionController::Base
-
-  def index 
+class Api::ActorsController < ApplicationController
+  def index
     @actors = Actor.all
-    render 'index2.json.jb'
+    render 'index.json.jb'
   end
 
   def show
     @actor = Actor.find(params[:id])
-    render 'actors.json.jb'
+    render 'show.json.jb'
   end
-
 
   def create
-    @actor = Actor.new( 
-    first_name: params[:first_name],
-    last_name: params[:last_name],
-    known_for: params[:known_for], 
-    age: params[:age]
+    @actor = Actor.new(
+      first_name: params[:first_name],
+      last_name: params[:last_name],
+      known_for: params[:known_for],
+      gender: params[:gender],
+      age: params[:age]
     )
-    @actor.save
 
-   if @actor.save 
-     render 'actors.json.jb'
-   else
-     render json: message { @actor.errors.full_message}
-   end
-
+    if @actor.save
+      render 'show.json.jb'
+    else
+      render json: {errors: @actor.errors.full_messages}, status: :unprocessable_entity
+    end
   end
 
-
-
   def update
-
-    @actor = Actor.find_by( id: params[:id])
-
+    @actor = Actor.find(params[:id])
+    
     @actor.first_name = params[:first_name] || @actor.first_name
-    @actor.last_name params[:last_name] || @actor.last_name
-    @actor.known_for = params[:known_for] || @actor.known_for,
+    @actor.last_name = params[:last_name] || @actor.last_name
+    @actor.known_for = params[:known_for] || @actor.known_for
+    @actor.gender = params[:gender] || @actor.gender
     @actor.age = params[:age] || @actor.age
-    @actor.save
 
-     
     if @actor.save
-      render 'actors.json.jb'
-    else 
-      render json: message { @actor.errors.full_message}
+      render 'show.json.jb'
+    else
+      render json: {errors: @actor.errors.full_messages}, status: :unprocessable_entity
     end
   end
 
   def destroy
-    actor = Actor.find_by(id: params[:id])
-    actor.destroy
-  
-    render json: { message: 
-    "Actor destroyed forever!"}
+    @actor = Actor.find(params[:id])
+    @actor.destroy 
+    render json: {message: "Actor destroyed forever."}
   end
 end
-
-
-
 
 
 
