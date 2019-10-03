@@ -27,6 +27,6 @@ actor.save
 
 actor = Actor.new({first_name: "Margot", last_name: "Robbie", known_for: "I, Tonya",
   age: "29"})
-actor. save
+actor.save
 
 
